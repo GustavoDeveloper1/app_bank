@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'BankApp',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'Mulish-bold',
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
         // Removido useMaterial3: true, pois está depreciado
       ),

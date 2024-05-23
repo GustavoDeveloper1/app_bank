@@ -225,6 +225,24 @@ const String dataBaseJson = '''
                     }
                 ]
             }
+        ],
+        "favorites": [
+          {
+            "name": "Cartão Virtual",
+            "icon" :  "assets/images/icons/add_card_mail.png"
+          },
+          {
+            "name": "Cartão Adicional",
+            "icon" :  "assets/images/icons/add_card_rounded.png"
+          },
+          {
+            "name": "Seguros",
+            "icon" :  "assets/images/icons/shield_outlined.png"
+          },
+          {
+            "name": "Pacote SMS",
+            "icon" :  "assets/images/icons/mail_outline_rounded.png"
+          }
         ]
 
     }

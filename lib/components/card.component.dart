@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -107,7 +105,7 @@ class _CardComponentState extends State<CardComponent> {
                     height: 10,
                   ),
                   const Divider(
-                    color: Color(0xFFF3660A1),
+                    color: Color.fromARGB(255, 54, 96, 161),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

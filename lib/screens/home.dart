@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bank/components/cardList.component.dart';
+import 'package:bank/components/favorites.component.dart';
 import 'package:bank/components/navbar.component.dart';
 import 'package:flutter/material.dart';
 import '../utils/database/database.dart';
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Color.fromARGB(255, 33, 84, 167),
                 Color(0xFFFFFFFF),
               ],
-              stops: [0.0, 0.6],
+              stops: [0.0, 0.5],
             ),
           ),
           child: Column(
@@ -68,6 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const Divider(
                 color: Color.fromARGB(255, 253, 253, 253),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FavoritesComponent(
+                favorites: client["favorites"],
               ),
             ],
           )),
