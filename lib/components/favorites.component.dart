@@ -23,7 +23,7 @@ class _FavoritesComponentState extends State<FavoritesComponent> {
               "Meus favoritos",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 18,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700),
             ),
             Row(
@@ -47,15 +47,13 @@ class _FavoritesComponentState extends State<FavoritesComponent> {
           ],
         ),
         SizedBox(
-          height: 150,
+          height: 130,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.favorites.length,
             itemBuilder: (context, index) {
               return GestureDetector(
-                  onTap: () {
-                    print(widget.favorites[index]);
-                  },
+                  onTap: () {},
                   child: FavoriteItem(favoriteItem: widget.favorites[index]));
             },
           ),

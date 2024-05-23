@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Mulish-bold',
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
-        // Removido useMaterial3: true, pois está depreciado
       ),
       home: const MyHomePage(),
     );

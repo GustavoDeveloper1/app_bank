@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:bank/components/cardList.component.dart';
 import 'package:bank/components/favorites.component.dart';
 import 'package:bank/components/navbar.component.dart';
+import 'package:bank/components/transferList.component.dart';
+import 'package:bank/utils/transactions.model.dart';
 import 'package:flutter/material.dart';
 import '../utils/database/database.dart';
 
@@ -28,6 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
       client = db["client"];
     });
 
+    if (client["cards"] != null && client["cards"].isNotEmpty) {
+      selectedCard.value = client["cards"][0];
+    }
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         loading = false;
@@ -51,32 +56,49 @@ class _HomeScreenState extends State<HomeScreen> {
                 Color.fromARGB(255, 33, 84, 167),
                 Color(0xFFFFFFFF),
               ],
-              stops: [0.0, 0.5],
+              stops: [0.0, 0.58],
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              NavBarComponent(
-                client: client,
-              ),
-              SizedBox(
-                height: 250,
-                child: CardList(
-                  cards: client["cards"],
-                  selectedCardNotifier: selectedCard,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                NavBarComponent(
+                  client: client,
                 ),
-              ),
-              const Divider(
-                color: Color.fromARGB(255, 253, 253, 253),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              FavoritesComponent(
-                favorites: client["favorites"],
-              ),
-            ],
+                SizedBox(
+                  height: 250,
+                  child: CardList(
+                    cards: client["cards"],
+                    selectedCardNotifier: selectedCard,
+                  ),
+                ),
+                const Divider(
+                  color: Color.fromARGB(255, 253, 253, 253),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                FavoritesComponent(
+                  favorites: client["favorites"],
+                ),
+                const Divider(
+                  color: Color.fromRGBO(229, 229, 229, 0.7),
+                ),
+                ValueListenableBuilder(
+                    valueListenable: selectedCard,
+                    builder: (ctx, seletedCard, _) {
+                      List<Transaction> transactions =
+                          selectedCard.value != null
+                              ? (selectedCard.value?["transactions"] as List)
+                                  .map((transaction) =>
+                                      Transaction.fromJson(transaction))
+                                  .toList()
+                              : [];
+                      return TransferList(transactions: transactions);
+                    })
+              ],
+            ),
           )),
       loading
           ? Positioned.fill(

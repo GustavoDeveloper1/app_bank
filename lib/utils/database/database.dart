@@ -32,7 +32,7 @@ const String dataBaseJson = '''
                         "name": "Uber",
                         "type": "driver",
                         "value": "35.75",
-                        "date": "2024-05-21T15:45:00",
+                        "date": "2024-05-22T15:45:00",
                         "numberOfInstallments": null,
                         "hasParcel": false,
                         "valuePerParcel": null
@@ -180,7 +180,7 @@ const String dataBaseJson = '''
                         "value": "300.00",
                         "date": "2024-05-09T17:30:00",
                         "numberOfInstallments": null,
-                        "hasParcel": null,
+                        "hasParcel": false,
                         "valuePerParcel": null
                     },
                     {
