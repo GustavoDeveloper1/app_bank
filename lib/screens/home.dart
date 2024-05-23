@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bank/components/cardList.component.dart';
 import 'package:bank/components/navbar.component.dart';
 import 'package:flutter/material.dart';
 import '../utils/database/database.dart';
@@ -15,9 +16,10 @@ class _HomeScreenState extends State<HomeScreen> {
   late Map<String, dynamic> db;
   late Map<String, dynamic> client;
   bool loading = true;
+  final ValueNotifier<Map?> selectedCard = ValueNotifier<Map?>(null);
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     db = jsonDecode(dataBaseJson);
 
@@ -48,14 +50,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 Color.fromARGB(255, 33, 84, 167),
                 Color(0xFFFFFFFF),
               ],
-              stops: [0.0, 0.4512],
+              stops: [0.0, 0.6],
             ),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               NavBarComponent(
                 client: client,
-              )
+              ),
+              SizedBox(
+                height: 250,
+                child: CardList(
+                  cards: client["cards"],
+                  selectedCardNotifier: selectedCard,
+                ),
+              ),
+              const Divider(
+                color: Color.fromARGB(255, 253, 253, 253),
+              ),
             ],
           )),
       loading
