@@ -1,5 +1,6 @@
 import 'package:bank/components/transaction.component.dart';
-import 'package:bank/utils/transactions.model.dart';
+import 'package:bank/models/transactions.model.dart';
+
 import 'package:flutter/material.dart';
 
 class TransferList extends StatefulWidget {
@@ -87,11 +88,9 @@ class _TransferListState extends State<TransferList> {
           Container(
             height: 10,
           ),
-          Container(
-            // decoration: BoxDecoration(
-            //     border: Border.all(width: 1, color: Colors.black)),
+          SizedBox(
             width: double.infinity,
-            height: 200,
+            height: 300,
             child: ListView(
               shrinkWrap: true,
               children: groupedTransactions.entries.map((entry) {

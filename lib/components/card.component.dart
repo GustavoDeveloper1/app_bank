@@ -63,7 +63,7 @@ class _CardComponentState extends State<CardComponent> {
                               fit: BoxFit.scaleDown,
                               child: Text(
                                 hideInfo
-                                    ? maskNumber(widget.card["number"]!)
+                                    ? maskNumber(widget.card!)
                                     : formatNumber(widget.card["number"]!),
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 15),
@@ -170,7 +170,6 @@ String formatNumber(String number) {
   for (int i = 0; i < length; i++) {
     formattedNumber += number[i];
 
-    // Add a space after every 4th character, except at the end
     if ((i + 1) % 4 == 0 && i != length - 1) {
       formattedNumber += ' ';
     }
@@ -185,12 +184,11 @@ String maskNumber(String number) {
 
   for (int i = 0; i < length; i++) {
     if (i < length - 4) {
-      maskedNumber += '.';
+      maskedNumber += '•';
     } else {
       maskedNumber += number[i];
     }
 
-    // Add a space after every 4th character, except at the end
     if ((i + 1) % 4 == 0 && i != length - 1) {
       maskedNumber += ' ';
     }

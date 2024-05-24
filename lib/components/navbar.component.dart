@@ -1,7 +1,8 @@
+import 'package:bank/models/client.model.dart';
 import 'package:flutter/material.dart';
 
 class NavBarComponent extends StatefulWidget {
-  final Map<String, dynamic> client;
+  final List client;
   NavBarComponent({Key? key, required this.client}) : super(key: key);
 
   @override
@@ -11,6 +12,7 @@ class NavBarComponent extends StatefulWidget {
 class _NavBarComponentState extends State<NavBarComponent> {
   @override
   Widget build(BuildContext context) {
+    print(widget.client);
     return Container(
       padding: const EdgeInsets.all(0),
       width: double.infinity,
@@ -29,7 +31,7 @@ class _NavBarComponentState extends State<NavBarComponent> {
             ),
           ),
           Text(
-            "Olá, ${widget.client['name']} ",
+            "Olá, ${widget.client[0]["name"]} ",
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
           Row(

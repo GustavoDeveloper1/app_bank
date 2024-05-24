@@ -1,114 +1,145 @@
-import 'dart:convert';
-
 import 'package:bank/components/cardList.component.dart';
 import 'package:bank/components/favorites.component.dart';
 import 'package:bank/components/navbar.component.dart';
 import 'package:bank/components/transferList.component.dart';
-import 'package:bank/utils/transactions.model.dart';
+import 'package:bank/models/transactions.model.dart';
+import 'package:bank/services/cards.services.dart';
+import 'package:bank/services/client.services.dart';
 import 'package:flutter/material.dart';
-import '../utils/database/database.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Map<String, dynamic> db;
-  late Map<String, dynamic> client;
+  late List<Map<String, dynamic>> cards = [];
+  late List client = [];
   bool loading = true;
-  final ValueNotifier<Map?> selectedCard = ValueNotifier<Map?>(null);
+
+  final ValueNotifier<Map<String, dynamic>?> selectedCard =
+      ValueNotifier<Map<String, dynamic>?>(null);
+  final Map<int, List<Transaction>> transactionsCache = {};
 
   @override
   void initState() {
     super.initState();
-    db = jsonDecode(dataBaseJson);
+    _getAllData();
+  }
+
+  _getAllData() async {
+    var clientData = await getClientData(12981);
+    var cardsData = await getAllCardByClient(12981);
+    client.add(clientData);
+
+    if (cardsData != null && cardsData.isNotEmpty) {
+      selectedCard.value = cardsData[0];
+    }
 
     setState(() {
-      client = db["client"];
+      cards = cardsData;
+      loading = false;
     });
+  }
 
-    if (client["cards"] != null && client["cards"].isNotEmpty) {
-      selectedCard.value = client["cards"][0];
+  Future<List<Transaction>> _getTransactionsByCardId(int cardId) async {
+    if (transactionsCache.containsKey(cardId)) {
+      return transactionsCache[cardId]!;
+    } else {
+      var transactions = await getAllTransactionsById(cardId);
+      transactionsCache[cardId] = transactions;
+      return transactions;
     }
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        loading = false;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: [
-      Container(
-          width: double.infinity,
-          height: double.infinity,
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color.fromARGB(255, 33, 84, 167),
-                Color(0xFFFFFFFF),
-              ],
-              stops: [0.0, 0.58],
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                NavBarComponent(
-                  client: client,
+      body: loading
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 50,
+                  bottom: 20,
                 ),
-                SizedBox(
-                  height: 250,
-                  child: CardList(
-                    cards: client["cards"],
-                    selectedCardNotifier: selectedCard,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromARGB(255, 33, 84, 167),
+                      Color(0xFFFFFFFF),
+                    ],
+                    stops: [0.0, 0.58],
                   ),
                 ),
-                const Divider(
-                  color: Color.fromARGB(255, 253, 253, 253),
+                child: OrientationBuilder(
+                  builder: (context, orientation) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        NavBarComponent(client: client),
+                        SizedBox(
+                          height: orientation == Orientation.portrait
+                              ? MediaQuery.of(context).size.height * 0.3
+                              : MediaQuery.of(context).size.height * 0.5,
+                          child: CardList(
+                            cards: cards,
+                            selectedCardNotifier: selectedCard,
+                          ),
+                        ),
+                        const Divider(
+                            color: Color.fromARGB(255, 253, 253, 253)),
+                        const SizedBox(height: 10),
+                        FavoritesComponent(favorites: client[0]["favorites"]),
+                        const Divider(
+                            color: Color.fromRGBO(229, 229, 229, 0.7)),
+                        SizedBox(
+                          height: 400,
+                          child: ValueListenableBuilder<Map<String, dynamic>?>(
+                            valueListenable: selectedCard,
+                            builder: (ctx, selectedCard, _) {
+                              int cardId = selectedCard != null
+                                  ? selectedCard["id"]
+                                  : -1;
+                              return FutureBuilder<List<Transaction>>(
+                                future: _getTransactionsByCardId(cardId),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (snapshot.hasError) {
+                                    return const Center(
+                                        child: Text(
+                                            "Erro a Pegar as transações!"));
+                                  } else {
+                                    var transactions = snapshot.data ?? [];
+                                    return ListView(
+                                      shrinkWrap: true,
+                                      children: [
+                                        TransferList(
+                                            transactions: transactions),
+                                      ],
+                                    );
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                FavoritesComponent(
-                  favorites: client["favorites"],
-                ),
-                const Divider(
-                  color: Color.fromRGBO(229, 229, 229, 0.7),
-                ),
-                ValueListenableBuilder(
-                    valueListenable: selectedCard,
-                    builder: (ctx, seletedCard, _) {
-                      List<Transaction> transactions =
-                          selectedCard.value != null
-                              ? (selectedCard.value?["transactions"] as List)
-                                  .map((transaction) =>
-                                      Transaction.fromJson(transaction))
-                                  .toList()
-                              : [];
-                      return TransferList(transactions: transactions);
-                    })
-              ],
-            ),
-          )),
-      loading
-          ? Positioned.fill(
-              child: Container(
-              color: Colors.black.withOpacity(0.5),
-              child: const Center(
-                child: CircularProgressIndicator(),
               ),
-            ))
-          : Container()
-    ]));
+            ),
+    );
   }
 }

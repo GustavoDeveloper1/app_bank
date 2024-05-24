@@ -17,66 +17,7 @@ const String dataBaseJson = '''
                 "bank": "GS3 TEC",
                 "bestDay": 10,
                 "transactions": [
-                    {
-                        "id": 1,
-                        "name": "Apple",
-                        "type": "mobile_buy",
-                        "value": "545.99",
-                        "date": "2024-05-22T10:30:00",
-                        "numberOfInstallments": 12,
-                        "hasParcel": true,
-                        "valuePerParcel": null
-                    },
-                    {
-                        "id": 2,
-                        "name": "Uber",
-                        "type": "driver",
-                        "value": "35.75",
-                        "date": "2024-05-22T15:45:00",
-                        "numberOfInstallments": null,
-                        "hasParcel": false,
-                        "valuePerParcel": null
-                    },
-                    {
-                        "id": 3,
-                        "name": "Netflix",
-                        "type": "mobile_buy",
-                        "value": "15.99",
-                        "date": "2024-05-20T09:00:00",
-                        "numberOfInstallments": null,
-                        "hasParcel": false,
-                        "valuePerParcel": null
-                    },
-                    {
-                        "id": 4,
-                        "name": "Google Play",
-                        "type": "mobile_buy",
-                        "value": "50.00",
-                        "date": "2024-05-19T14:20:00",
-                        "numberOfInstallments": null,
-                        "hasParcel": false,
-                        "valuePerParcel": null
-                    },
-                    {
-                        "id": 5,
-                        "name": "Walmart",
-                        "type": "market",
-                        "value": "180.99",
-                        "date": "2024-05-18T08:45:00",
-                        "numberOfInstallments": null,
-                        "hasParcel": false,
-                        "valuePerParcel": null
-                    },
-                    {
-                        "id": 6,
-                        "name": "Amazon",
-                        "type": "market",
-                        "value": "250.00",
-                        "date": "2024-05-17T19:30:00",
-                        "numberOfInstallments": 5,
-                        "hasParcel": true,
-                        "valuePerParcel": "50.00"
-                    }
+                    
                 ]
             },
             {
