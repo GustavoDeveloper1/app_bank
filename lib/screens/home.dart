@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: orientation == Orientation.portrait
                               ? MediaQuery.of(context).size.height * 0.3
-                              : MediaQuery.of(context).size.height * 0.5,
+                              : MediaQuery.of(context).size.height * 0.7,
                           child: CardList(
                             cards: cards,
                             selectedCardNotifier: selectedCard,
