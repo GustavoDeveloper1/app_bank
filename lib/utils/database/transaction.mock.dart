@@ -46,9 +46,9 @@ const String transactionsMock = '''
     },
        {
         "id": 7,
-        "name": "Apple",
+        "name": "Samsung",
         "type": "mobile_buy",
-        "value": "545.99",
+        "value": "999.00",
         "date": "2024-05-22T10:30:00",
         "numberOfInstallments": 12,
         "hasParcel": true,
@@ -175,7 +175,32 @@ const String transactionsMock = '''
         "hasParcel": false,
         "valuePerParcel": null,
         "card_id": 10974
+    },
+        {
+        "id": 19,
+        "name": "Ifood",
+        "type": "food",
+        "value": "10.25",
+        "date": "2024-05-11T18:20:00",
+        "numberOfInstallments": null,
+        "hasParcel": false,
+        "valuePerParcel": null,
+        "card_id": 10974
     }
+    
+    ,    {
+        "id": 20,
+        "name": "Starbucks",
+        "type": "food",
+        "value": "10.25",
+        "date": "2024-05-08T18:20:00",
+        "numberOfInstallments": null,
+        "hasParcel": false,
+        "valuePerParcel": null,
+        "card_id": 10974
+    }
+    
+
     
     ]
 ''';

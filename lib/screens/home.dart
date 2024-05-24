@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var cardsData = await getAllCardByClient(12981);
     client.add(clientData);
 
-    if (cardsData != null && cardsData.isNotEmpty) {
+    if (cardsData.isNotEmpty) {
       selectedCard.value = cardsData[0];
     }
 

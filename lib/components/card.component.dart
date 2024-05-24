@@ -19,7 +19,7 @@ class _CardComponentState extends State<CardComponent> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 20),
-      width: 350,
+      width: MediaQuery.of(context).size.width * .9,
       height: 200,
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
@@ -42,7 +42,7 @@ class _CardComponentState extends State<CardComponent> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 100,
+                  width: 70,
                   height: 80,
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 218, 218, 218),
@@ -52,7 +52,7 @@ class _CardComponentState extends State<CardComponent> {
                   width: 5,
                 ),
                 SizedBox(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width * .4,
                   height: 80,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
